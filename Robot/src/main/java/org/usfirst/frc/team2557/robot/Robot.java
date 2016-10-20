@@ -92,10 +92,13 @@ public class Robot extends IterativeRobot {
 
         posChooser = new SendableChooser();
         posChooser.addDefault("No Shoot", 0);
-        posChooser.addObject("Position 1", 1);
-        posChooser.addObject("Position 2", 2);
-        posChooser.addObject("Position 3", 3);
-        posChooser.addObject("Position 4", 4);
+	for(int i = 1; i <=4; i++){
+	    posChooser.addObject("Position " + i, i);
+	}
+//         posChooser.addObject("Position 1", 1);
+//         posChooser.addObject("Position 2", 2);
+//         posChooser.addObject("Position 3", 3);
+//         posChooser.addObject("Position 4", 4);
 
         batterChooser = new SendableChooser();
         batterChooser.addDefault("Left", -1);
