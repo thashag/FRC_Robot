@@ -16,7 +16,8 @@ import org.usfirst.frc.team2557.robot.commands.camera.TurnToTargetCommand;
 import org.usfirst.frc.team2557.robot.commands.chassis.EncoderPosDriveCommand;
 import org.usfirst.frc.team2557.robot.commands.chassis.TurnByAngleCommand;
 import org.usfirst.frc.team2557.robot.subsystems.*;
-
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -28,16 +29,7 @@ import org.usfirst.frc.team2557.robot.subsystems.*;
 public class Robot extends IterativeRobot {
 
 	//Subsystem Declarations//
-    public static OI oi;
-    public static Chassis chassis;
-    public static Arm arm;
-    public static Intake intake;
-    public static Catapult catapult;
-    public static Winch winch;
-    public static SecondArm secondArm;
-    public static Camera camera;
-    public static Lidar lidar;
-    public static Dashboard dashboard;
+	public static Map<String, Subsystem> subs;
 
     //Command Declarations//
     Command autonomousCommand;
@@ -50,7 +42,7 @@ public class Robot extends IterativeRobot {
 
     public Robot() {
         super();
-
+	subs = new HashMap<String, Subsystem>();
         instance = this;
     }
 
@@ -63,15 +55,15 @@ public class Robot extends IterativeRobot {
         RobotMap.init();
 
         //Subsystem Connections//
-        chassis = new Chassis();
-        arm = new Arm();
-        intake = new Intake();
-        catapult = new Catapult();
-        winch = new Winch();
-        secondArm = new SecondArm();
-        camera = new Camera();
-        lidar = new Lidar();
-        dashboard = new Dashboard();
+        subs.put("chassis", new Chassis());
+        subs.put("arm", new Arm());
+        subs.put("intake", new Intake());
+        subs.put("catapult", new Catapult());
+        subs.put("winch", new Winch());
+         subs.put("secondArm", new SecondArm());
+         subs.put("camera", new Camera());
+         subs.put("lidar", new Lidar());
+         subs.put("dashboard", new Dashboard());
 
         //OI Connection//
         // NOTE: oi MUST be constructed after subsystems
@@ -124,7 +116,7 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         // Update the arm subsystem (updates PIDs and such)
-        arm.update();
+        ((Arm) subs.get("arm")).update();
 
         Scheduler.getInstance().run();
     }
@@ -149,7 +141,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         // Update the arm
-        Robot.arm.update();
+        ((Arm) subs.get("arm")).update();
 
         Scheduler.getInstance().run();
     }
